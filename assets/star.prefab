@@ -110,7 +110,7 @@
       "__id__": 1
     },
     "_enabled": true,
-    "pickRadius": 0,
+    "pickRadius": 60,
     "_id": ""
   },
   {
@@ -119,7 +119,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "629bb3fb-6043-4398-9ac0-87b08967610a"
     },
     "fileId": "degdrD/alNuaSG3cbDoPVF",
     "sync": false

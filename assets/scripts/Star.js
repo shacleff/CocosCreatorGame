@@ -23,9 +23,10 @@ cc.Class({
 
     getPlayerDistance: function () {
         // 根据 player 节点位置判断距离
-        var playerPos = this.game.player.getCenterPos();
+        var playerPos1 = this.game.player1.getCenterPos();
+        var playerPos2 = this.game.player2.getCenterPos();
         // 根据两点位置计算两点之间距离
-        var dist = this.node.position.sub(playerPos).mag();
+        var dist = Math.min(this.node.position.sub(playerPos1).mag(), this.node.position.sub(playerPos2).mag());
         return dist;
     },
 

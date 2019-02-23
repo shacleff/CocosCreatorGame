@@ -31,11 +31,17 @@ cc.Class({
         period: 8,
         degree: 0,
         direction: 1.0,
+        v: 8,
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        
+        this.node.stopAllActions();
+        this.node.setPosition(cc.v2(0, 0));
+        this.node.setRotation(90);
+        this.degree = 0;
 
         this.node.runAction(cc.repeatForever(this.clockwise(-180)));
     },
@@ -65,20 +71,20 @@ cc.Class({
 
         cc.log("x11 %f y11 %f, x12 %f y12 %f", x11, y11, x12, y12);
 
-        var rot11 = cc.rotateBy(2, 90);
-        var rot12 = cc.spawn(cc.moveBy(2, cc.v2(x11, y11)).easing(cc.easeSineIn()), cc.moveBy(2, cc.v2(x12, y12)).easing(cc.easeSineOut()));
+        var rot11 = cc.rotateBy(this.v / 4, 90);
+        var rot12 = cc.spawn(cc.moveBy(this.v / 4, cc.v2(x11, y11)).easing(cc.easeSineIn()), cc.moveBy(this.v / 4, cc.v2(x12, y12)).easing(cc.easeSineOut()));
         var rot1 = cc.spawn(rot11, rot12);
         
-        var rot21 = cc.rotateBy(2, 90);
-        var rot22 = cc.spawn(cc.moveBy(2, cc.v2(x21, y21)).easing(cc.easeSineOut()), cc.moveBy(2, cc.v2(x22, y22)).easing(cc.easeSineIn()));
+        var rot21 = cc.rotateBy(this.v / 4, 90);
+        var rot22 = cc.spawn(cc.moveBy(this.v / 4, cc.v2(x21, y21)).easing(cc.easeSineOut()), cc.moveBy(this.v / 4, cc.v2(x22, y22)).easing(cc.easeSineIn()));
         var rot2 = cc.spawn(rot21, rot22);
         
-        var rot31 = cc.rotateBy(2, 90);
-        var rot32 = cc.spawn(cc.moveBy(2, cc.v2(x31, y31)).easing(cc.easeSineIn()), cc.moveBy(2, cc.v2(x32, y32)).easing(cc.easeSineOut()));
+        var rot31 = cc.rotateBy(this.v / 4, 90);
+        var rot32 = cc.spawn(cc.moveBy(this.v / 4, cc.v2(x31, y31)).easing(cc.easeSineIn()), cc.moveBy(this.v / 4, cc.v2(x32, y32)).easing(cc.easeSineOut()));
         var rot3 = cc.spawn(rot31, rot32);
         
-        var rot41 = cc.rotateBy(2, 90);
-        var rot42 = cc.spawn(cc.moveBy(2, cc.v2(x41, y41)).easing(cc.easeSineOut()), cc.moveBy(2, cc.v2(x42, y42)).easing(cc.easeSineIn()));
+        var rot41 = cc.rotateBy(this.v / 4, 90);
+        var rot42 = cc.spawn(cc.moveBy(this.v / 4, cc.v2(x41, y41)).easing(cc.easeSineOut()), cc.moveBy(this.v / 4, cc.v2(x42, y42)).easing(cc.easeSineIn()));
         var rot4 = cc.spawn(rot41, rot42);
 
         return cc.sequence(rot1, rot2, rot3, rot4);
@@ -92,7 +98,7 @@ cc.Class({
     myshift: function (count, degree) {
 
         this.node.stopAllActions();
-        this.degree -= 0.8; //  error range, 0.7 or 0.8 is good
+        this.degree -= 1.5; //  error range, 0.7 or 0.8 is good (when v = 8) (1.4, 1.6 when v = 4)
 
         degree = count % 2 ? degree : degree - 180;
 
@@ -100,7 +106,15 @@ cc.Class({
     },
 
     update (dt) {
+        // if (this.stop)
+        //     return;
+
         var w = (360.0 / this.period) * this.direction;
         this.degree += (w * dt);
     },
+
+    // stopMove: function () {
+    //     this.node.stopAllActions();
+    //     this.stop = true;
+    // },
 });

@@ -29,11 +29,14 @@ cc.Class({
         // },
 
         r: 256,
+        v: 8,
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        this.node.stopAllActions();
+        this.node.setPosition(cc.v2(-128, 0));
         this.node.runAction(cc.repeatForever(this.clockwise(0)));
     },
 
@@ -58,10 +61,10 @@ cc.Class({
 
         cc.log("x11 %f y11 %f, x12 %f y12 %f", x11, y11, x12, y12);
 
-        var ro1 = cc.spawn(cc.moveBy(2, cc.v2(x11, y11)).easing(cc.easeSineIn()), cc.moveBy(2, cc.v2(x12, y12)).easing(cc.easeSineOut()));
-        var ro2 = cc.spawn(cc.moveBy(2, cc.v2(x21, y21)).easing(cc.easeSineOut()), cc.moveBy(2, cc.v2(x22, y22)).easing(cc.easeSineIn()));
-        var ro3 = cc.spawn(cc.moveBy(2, cc.v2(x31, y31)).easing(cc.easeSineIn()), cc.moveBy(2, cc.v2(x32, y32)).easing(cc.easeSineOut()));
-        var ro4 = cc.spawn(cc.moveBy(2, cc.v2(x41, y41)).easing(cc.easeSineOut()), cc.moveBy(2, cc.v2(x42, y42)).easing(cc.easeSineIn()));
+        var ro1 = cc.spawn(cc.moveBy(this.v / 4, cc.v2(x11, y11)).easing(cc.easeSineIn()), cc.moveBy(this.v / 4, cc.v2(x12, y12)).easing(cc.easeSineOut()));
+        var ro2 = cc.spawn(cc.moveBy(this.v / 4, cc.v2(x21, y21)).easing(cc.easeSineOut()), cc.moveBy(this.v / 4, cc.v2(x22, y22)).easing(cc.easeSineIn()));
+        var ro3 = cc.spawn(cc.moveBy(this.v / 4, cc.v2(x31, y31)).easing(cc.easeSineIn()), cc.moveBy(this.v / 4, cc.v2(x32, y32)).easing(cc.easeSineOut()));
+        var ro4 = cc.spawn(cc.moveBy(this.v / 4, cc.v2(x41, y41)).easing(cc.easeSineOut()), cc.moveBy(this.v / 4, cc.v2(x42, y42)).easing(cc.easeSineIn()));
         return cc.sequence(ro1, ro2, ro3, ro4);
 
     },
@@ -83,6 +86,15 @@ cc.Class({
             this.node.runAction(cc.repeatForever(this.clockwise(degree)));
         }
 
+    },
+
+    getCenterPos: function () {
+        var centerPos = cc.v2(this.node.x, this.node.y + this.node.height/2);
+        return centerPos;
+    },
+
+    stopMove: function () {
+        this.node.stopAllActions();
     },
 
     // update (dt) {},
